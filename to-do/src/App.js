@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 /* eslint-disable no-unused-vars */
 import React, { useState,useEffect } from "react";
 import './App.css';
@@ -14,30 +14,32 @@ function App() {
   const [filteredTodos, setFilteredTodos] = useState([]);
   //Using effect
   useEffect(() => {
+    const filterHandler = () => {
+      switch(status){
+        case 'completed':
+          setFilteredTodos(todos.filter(todo => todo.completed === true));
+          break;
+          case 'uncompleted':
+            setFilteredTodos(todos.filter(todo => todo.completed === false));
+          break;
+          default:
+            setFilteredTodos(todos);
+            break;
+      }
+    };
     filterHandler();
   },[todos, status]);
 
   //Functions
-  const filterHandler = () => {
-    switch(status){
-      case 'completed':
-        setFilteredTodos(todos.filter(todo => todo.completed === true));
-        break;
-        case 'uncompleted':
-          setFilteredTodos(todos.filter(todo => todo.completed === false));
-        break;
-        default:
-          setFilteredTodos(todos);
-          break;
-    }
-  };
+  
+  
   return (
     <div className="App">
       <header>
       <h1>Todo-List </h1>
       </header>
-      <Form inputText={inputText} todos={todos} setTodos={setTodos} setInputText={setInputText} setStatus={setStatus} />
-      <TodoList setTodos={setTodos}todos={todos}/>
+      <Form inputText={inputText} todos={todos} setTodos={setTodos} setInputText={setInputText} setStatus={setStatus}  />
+      <TodoList filteredTodos={filteredTodos} setTodos={setTodos}todos={todos}/>
     </div>
   );
 }
